@@ -18,8 +18,6 @@ export const JWTAuthMiddleware: MiddlewareFunction = async (req, res, next) => {
 
       const user = await userModel.findById(decoded!._id)
 
-      console.log(user)
-
       if (user) {
         req.user = user
         next()
@@ -31,3 +29,17 @@ export const JWTAuthMiddleware: MiddlewareFunction = async (req, res, next) => {
     next(error)
   }
 }
+
+export const authorize =
+  (allowedRoles: string[]): MiddlewareFunction =>
+  async (req, res, next) => {
+    if (req.user) {
+      if (allowedRoles.includes(req.user.role)) {
+        next()
+      } else {
+        next(createError(403, 'Not allowed!'))
+      }
+    } else {
+      next(createError(401, 'Please log in!'))
+    }
+  }

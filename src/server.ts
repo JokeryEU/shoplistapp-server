@@ -6,7 +6,7 @@ import listEndpoints from 'express-list-endpoints'
 import cookieParser from 'cookie-parser'
 import userRoutes from './routes/userRoutes'
 import listRoutes from './routes/listRoutes'
-
+import createError from 'http-errors'
 import {
   notFoundErrorHandler,
   badRequestErrorHandler,
@@ -21,16 +21,29 @@ const server = express()
 
 const port = process.env.PORT || 3005
 
+const whiteList = [process.env.FE_URL_DEV, process.env.FE_URL_PROD]
+
+const corsOptions = {
+  origin: function (origin: any, next: any) {
+    if (whiteList.indexOf(origin) !== -1) {
+      next(null, true)
+    } else {
+      next(createError(403, `NOT ALLOWED BY CORS`))
+    }
+  },
+  credentials: true,
+}
+
 // ********************* MIDDLEWARES ****************************
 
-server.use(cors())
+server.use(cors(corsOptions))
 server.use(express.json())
 server.use(cookieParser())
 
 // ********************* ROUTES  **********************************
 
 server.use('/users', userRoutes)
-server.use('/list', listRoutes)
+server.use('/lists', listRoutes)
 
 // ********************* ERROR HANDLERS ***************************
 

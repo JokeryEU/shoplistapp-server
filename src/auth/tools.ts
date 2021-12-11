@@ -3,10 +3,15 @@ import { UserDocument } from '../models/users/types'
 import { TokenPayload } from './types'
 
 export const authenticate = async (user: UserDocument) => {
-  const accessToken = await generateJWT({ _id: user._id })
+  const newAccessToken = await generateJWT({ _id: user._id })
+  if (newAccessToken) {
+    const newRefreshToken = await generateRefreshJWT({ _id: user._id })
+    user.refreshToken = newRefreshToken
+    await user.save()
 
-  if (accessToken) {
-    return accessToken
+    if (newAccessToken && newRefreshToken) {
+      return { accessToken: newAccessToken, refreshToken: newRefreshToken }
+    }
   } else {
     throw new Error('Error during token generation!')
   }
@@ -20,6 +25,21 @@ const generateJWT = (payload: TokenPayload): Promise<string | undefined> =>
       { expiresIn: '1d' },
       (err, token) => {
         if (err) rej(err)
+        res(token)
+      }
+    )
+  )
+
+const generateRefreshJWT = (
+  payload: TokenPayload
+): Promise<string | undefined> =>
+  new Promise((res, rej) =>
+    jwt.sign(
+      payload,
+      process.env.REFRESH_TOKEN_SECRET!,
+      { expiresIn: '7d' },
+      (error, token) => {
+        if (error) rej(error)
         res(token)
       }
     )
