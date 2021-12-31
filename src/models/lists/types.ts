@@ -3,12 +3,14 @@ import { Document, Model, ObjectId } from 'mongoose'
 export interface List {
   user: ObjectId
   title: string
-  products?: Product[]
+  icon?: string
+  items?: Item[]
   invited?: ObjectId[]
 }
 
-export interface Product {
+export interface Item {
   name: string
+  category?: string
   unit?: string
   quantity?: number
   price?: number

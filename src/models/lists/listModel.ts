@@ -1,7 +1,21 @@
 import mongoose from 'mongoose'
-import { List, ListModel } from './types'
+import { List, ListModel, Item } from './types'
 
 const { Schema, model } = mongoose
+
+const itemSchema = new Schema<Item>(
+  {
+    name: { type: String, trim: true, required: true },
+    category: { type: String },
+    unit: { type: String },
+    quantity: { type: Number },
+    price: { type: Number },
+    isFavorite: { type: Boolean, default: false },
+    isPinned: { type: Boolean, default: false },
+    isCrossedOff: { type: Boolean, default: false },
+  },
+  { timestamps: true }
+)
 
 const ListSchema = new Schema<List, ListModel>(
   {
@@ -11,18 +25,9 @@ const ListSchema = new Schema<List, ListModel>(
       required: true,
       immutable: true,
     },
+    icon: String,
     title: { type: String, required: true, trim: true },
-    products: [
-      {
-        name: { type: String, trim: true, required: true },
-        unit: { type: String },
-        quantity: { type: Number },
-        price: { type: Number },
-        isFavorite: { type: Boolean, default: false },
-        isPinned: { type: Boolean, default: false },
-        isCrossedOff: { type: Boolean, default: false },
-      },
-    ],
+    items: [itemSchema],
     invited: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
   { timestamps: true }

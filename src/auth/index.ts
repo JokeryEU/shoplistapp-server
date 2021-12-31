@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import createError from 'http-errors'
+import listModel from '../models/lists/listModel'
 import userModel from '../models/users/userModel'
 import { verifyJWT } from './tools'
 
@@ -24,6 +25,8 @@ export const JWTAuthMiddleware: MiddlewareFunction = async (req, res, next) => {
       } else {
         throw new Error('User not found!')
       }
+    } else {
+      next(createError(401, 'Please log in!'))
     }
   } catch (error) {
     next(error)
@@ -43,3 +46,20 @@ export const authorize =
       next(createError(401, 'Please log in!'))
     }
   }
+
+export const ownsList: MiddlewareFunction = async (req, res, next) => {
+  if (req.user) {
+    const userList = await listModel.findOne({
+      $and: [{ _id: req.params.id }, { user: req.user._id }],
+    })
+    console.log(userList)
+
+    if (userList) {
+      next()
+    } else {
+      next(createError(403, 'Not allowed!'))
+    }
+  } else {
+    next(createError(401, 'Please log in!'))
+  }
+}
