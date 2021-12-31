@@ -19,16 +19,16 @@ dotenv.config()
 
 const server = express()
 
-const port = process.env.PORT || 3005
+const port = process.env.PORT || 3004
 
 const whiteList = [process.env.FE_URL_DEV, process.env.FE_URL_PROD]
 
 const corsOptions = {
-  origin: function (origin: any, next: any) {
+  origin: function (origin: string | undefined, next: any) {
     if (whiteList.indexOf(origin) !== -1) {
       next(null, true)
     } else {
-      next(createError(403, `NOT ALLOWED BY CORS`))
+      next(createError(403, 'NOT ALLOWED BY CORS'))
     }
   },
   credentials: true,

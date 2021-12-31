@@ -46,7 +46,11 @@ export const authUser: MiddlewareFunction = async (
 // @description Register a new user
 // @route POST /users/register
 // @access Public
-export const registerUser: MiddlewareFunction = async (req, res, next) => {
+export const registerUser: MiddlewareFunction = async (
+  req: Request<{}, {}, User>,
+  res,
+  next
+) => {
   try {
     const newUser = await UserModel.create({
       ...req.body,
@@ -137,8 +141,7 @@ export const updateUserProfile: MiddlewareFunction = async (
 export const getUsers: MiddlewareFunction = async (req, res, next) => {
   try {
     const users = await UserModel.find({})
-
-    res.status(200).send(users)
+    res.send(users)
   } catch (error) {
     next(error)
   }

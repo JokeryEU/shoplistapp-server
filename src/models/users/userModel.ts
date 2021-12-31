@@ -16,14 +16,16 @@ const UserSchema = new Schema<User, UserModel>(
       required: true,
       lowercase: true,
       trim: true,
+      max: 50,
     },
-    password: { type: String, trim: true, required: true },
+    password: { type: String, trim: true, required: true, min: 8 },
     role: {
       type: String,
       required: true,
       default: 'User',
       enum: ['User', 'Admin'],
     },
+    history: [{ type: String, trim: true, min: 3 }],
     refreshToken: String,
   },
   { timestamps: true }
