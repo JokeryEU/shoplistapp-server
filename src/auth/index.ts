@@ -52,7 +52,6 @@ export const ownsList: MiddlewareFunction = async (req, res, next) => {
     const userList = await listModel.findOne({
       $and: [{ _id: req.params.id }, { user: req.user._id }],
     })
-    console.log(userList)
 
     if (userList) {
       next()

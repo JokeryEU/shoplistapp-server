@@ -9,9 +9,16 @@
     "dev": "ts-node-dev --respawn --pretty --transpile-only ./src/server",
     "start": "node ./build/src/server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JokeryEU/shoplistapp-server.git"
+  },
   "keywords": [],
   "author": "Mihai Ivanov",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JokeryEU/shoplistapp-server/issues"
+  },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.2",
