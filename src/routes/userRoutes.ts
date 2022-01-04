@@ -8,6 +8,7 @@ import {
   updateUserProfile,
 } from '../controllers/userController'
 import { authorize, JWTAuthMiddleware } from '../auth/index'
+import { blacklist } from '../auth/validator'
 
 const router = express.Router()
 
@@ -19,6 +20,6 @@ router.post('/logout', JWTAuthMiddleware, logoutUser)
 router
   .route('/profile')
   .get(JWTAuthMiddleware, getUserProfile)
-  .put(JWTAuthMiddleware, updateUserProfile)
+  .put(JWTAuthMiddleware, blacklist(['role']), updateUserProfile)
 
 export default router
