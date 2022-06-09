@@ -21,23 +21,21 @@ export const authUser: MiddlewareFunction = async (
   try {
     const { email, password } = req.body
     const user = await UserModel.checkCredentials(email, password)
-    if (user) {
-      const tokens = await authenticate(user)
-      res.cookie('accessToken', tokens!.accessToken, {
-        secure: process.env.NODE_ENV === 'production' ? true : false,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        httpOnly: true,
-      })
-      res.cookie('refreshToken', tokens!.refreshToken, {
-        secure: process.env.NODE_ENV === 'production' ? true : false,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        httpOnly: true,
-      })
+    if (!user) throw createError(400, 'Invalid email or password')
 
-      res.send(user)
-    } else {
-      next(createError(400, 'Invalid email or password'))
-    }
+    const tokens = await authenticate(user)
+    res.cookie('accessToken', tokens!.accessToken, {
+      secure: process.env.NODE_ENV === 'production' ? true : false,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      httpOnly: true,
+    })
+    res.cookie('refreshToken', tokens!.refreshToken, {
+      secure: process.env.NODE_ENV === 'production' ? true : false,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      httpOnly: true,
+    })
+
+    res.send(user)
   } catch (error) {
     next(error)
   }
@@ -56,27 +54,24 @@ export const registerUser: MiddlewareFunction = async (
       ...req.body,
       role: 'User',
     })
-    if (newUser) {
-      const user = await UserModel.checkCredentials(
-        req.body.email,
-        req.body.password
-      )
-      const tokens = await authenticate(user)
-      res.cookie('accessToken', tokens!.accessToken, {
-        secure: process.env.NODE_ENV === 'production' ? true : false,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        httpOnly: true,
-      })
-      res.cookie('refreshToken', tokens!.refreshToken, {
-        secure: process.env.NODE_ENV === 'production' ? true : false,
-        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-        httpOnly: true,
-      })
+    if (!newUser) throw createError(400, 'Please try again.')
+    const user = await UserModel.checkCredentials(
+      req.body.email,
+      req.body.password
+    )
+    const tokens = await authenticate(user)
+    res.cookie('accessToken', tokens!.accessToken, {
+      secure: process.env.NODE_ENV === 'production' ? true : false,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      httpOnly: true,
+    })
+    res.cookie('refreshToken', tokens!.refreshToken, {
+      secure: process.env.NODE_ENV === 'production' ? true : false,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      httpOnly: true,
+    })
 
-      res.status(201).send(newUser)
-    } else {
-      next(createError(400, 'Please try again.'))
-    }
+    res.status(201).send(newUser)
   } catch (error) {
     next(error)
   }
@@ -119,17 +114,13 @@ export const updateUserProfile: MiddlewareFunction = async (
   try {
     const user = req.user
 
-    if (user) {
-      const updates = Object.keys(req.body) as (keyof User)[]
+    if (!user) throw createError(404, 'Please log in')
+    const updates = Object.keys(req.body) as (keyof User)[]
 
-      updates.forEach((update) => ((user as any)[update] = req.body[update]))
+    updates.forEach((update) => ((user as any)[update] = req.body[update]))
+    await user.save()
 
-      await user.save()
-
-      res.send(user)
-    } else {
-      next(createError(404, 'Please log in'))
-    }
+    res.send(user)
   } catch (error) {
     next(error)
   }

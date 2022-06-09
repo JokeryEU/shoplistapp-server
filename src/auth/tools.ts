@@ -4,16 +4,13 @@ import { TokenPayload } from './types'
 
 export const authenticate = async (user: UserDocument) => {
   const newAccessToken = await generateJWT({ _id: user._id })
-  if (newAccessToken) {
-    const newRefreshToken = await generateRefreshJWT({ _id: user._id })
-    user.refreshToken = newRefreshToken
-    await user.save()
+  if (!newAccessToken) throw new Error('Error during token generation!')
+  const newRefreshToken = await generateRefreshJWT({ _id: user._id })
+  user.refreshToken = newRefreshToken
+  await user.save()
 
-    if (newAccessToken && newRefreshToken) {
-      return { accessToken: newAccessToken, refreshToken: newRefreshToken }
-    }
-  } else {
-    throw new Error('Error during token generation!')
+  if (newAccessToken && newRefreshToken) {
+    return { accessToken: newAccessToken, refreshToken: newRefreshToken }
   }
 }
 

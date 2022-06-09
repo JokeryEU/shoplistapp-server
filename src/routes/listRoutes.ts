@@ -11,7 +11,7 @@ import {
   updateItem,
   updateList,
 } from '../controllers/listController'
-import { ownsList, authorize, JWTAuthMiddleware } from '../auth'
+import { ownsList, authorize, JWTAuthMiddleware } from '../auth/index'
 
 const router = express.Router()
 

@@ -19,12 +19,9 @@ export const JWTAuthMiddleware: MiddlewareFunction = async (req, res, next) => {
 
       const user = await userModel.findById(decoded!._id)
 
-      if (user) {
-        req.user = user
-        next()
-      } else {
-        throw new Error('User not found!')
-      }
+      if (!user) throw new Error('User not found!')
+      req.user = user
+      next()
     } else {
       next(createError(401, 'Please log in!'))
     }

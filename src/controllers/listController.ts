@@ -76,14 +76,11 @@ export const addToList = async (
       },
       { new: true, runValidators: true }
     )
-    if (updateList) {
-      res.send({
-        message: `${req.body.name} added to the list`,
-        item: updateList!.items,
-      })
-    } else {
-      next(createHttpError(404, 'List not found!'))
-    }
+    if (!updateList) throw createHttpError(404, 'List not found!')
+    res.send({
+      message: `${req.body.name} added to the list`,
+      item: updateList!.items,
+    })
   } catch (error) {
     next(error)
   }
@@ -92,7 +89,6 @@ export const addToList = async (
 // @description Remove list
 // @route DELETE /lists/:id
 // @access Private
-
 export const removeList = async (
   req: Request<{ id: string }>,
   res: Response,
@@ -106,7 +102,7 @@ export const removeList = async (
         message: `${removedlist.title} list removed`,
       })
     } else {
-      next(createHttpError(404, 'List not found!'))
+      throw createHttpError(404, 'List not found!')
     }
   } catch (error) {
     next(error)
@@ -133,13 +129,10 @@ export const removeFromList = async (
       { new: true, runValidators: true }
     )
 
-    if (removeItem) {
-      res.send({
-        message: 'Item removed',
-      })
-    } else {
-      next(createHttpError(404, 'List not found!'))
-    }
+    if (!removeItem) throw createHttpError(404, 'List not found!')
+    res.send({
+      message: 'Item removed',
+    })
   } catch (error) {
     next(error)
   }
@@ -168,13 +161,10 @@ export const updateList = async (
       { new: true, runValidators: true }
     )
 
-    if (updateList) {
-      res.send({
-        message: `List updated`,
-      })
-    } else {
-      next(createHttpError(404, 'List not found!'))
-    }
+    if (!updateList) throw createHttpError(404, 'List not found!')
+    res.send({
+      message: `List updated`,
+    })
   } catch (error) {
     next(error)
   }
@@ -210,14 +200,12 @@ export const updateItem = async (
       { new: true, runValidators: true }
     )
 
-    if (updateItem) {
-      res.send({
-        message: `Item updated`,
-        items: updateItem.items,
-      })
-    } else {
-      next(createHttpError(404, 'List not found!'))
-    }
+    if (!updateItem) throw createHttpError(404, 'List not found!')
+
+    res.send({
+      message: `Item updated`,
+      items: updateItem.items,
+    })
   } catch (error) {
     next(error)
   }
@@ -234,23 +222,21 @@ export const addInvitedToList = async (
   try {
     const id = req.params.id
     const findUser = await userModel.findOne({ email: req.body.email })
-    if (findUser) {
-      const updateList = await listModel.findByIdAndUpdate(
-        id,
-        {
-          $addToSet: { invited: findUser._id },
-        },
-        { new: true, runValidators: true }
-      )
-      if (updateList) {
-        res.send({
-          message: `${req.body.email} added to the list`,
-        })
-      } else {
-        next(createHttpError(404, 'List not found!'))
-      }
+    if (!findUser) throw createHttpError(404, 'No user found!')
+
+    const updateList = await listModel.findByIdAndUpdate(
+      id,
+      {
+        $addToSet: { invited: findUser._id },
+      },
+      { new: true, runValidators: true }
+    )
+    if (updateList) {
+      res.send({
+        message: `${req.body.email} added to the list`,
+      })
     } else {
-      next(createHttpError(404, 'No user found!'))
+      throw createHttpError(404, 'List not found!')
     }
   } catch (error) {
     next(error)

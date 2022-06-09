@@ -14,6 +14,7 @@ import {
   forbiddenErrorHandler,
   unauthorizedErrorHandler,
 } from './errorHandlers'
+import morgan from 'morgan'
 
 dotenv.config()
 
@@ -39,6 +40,7 @@ const corsOptions = {
 server.use(cors(corsOptions))
 server.use(express.json())
 server.use(cookieParser())
+server.use(morgan('dev'))
 
 // ********************* ROUTES  **********************************
 
