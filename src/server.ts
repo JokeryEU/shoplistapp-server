@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request } from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
@@ -25,7 +25,7 @@ const port = process.env.PORT || 3004
 const whiteList = [process.env.FE_URL_DEV, process.env.FE_URL_PROD]
 
 const corsOptions = {
-  origin: function (origin: string | undefined, next: any) {
+  origin: function (origin: string | undefined, next: any): void {
     if (whiteList.indexOf(origin) !== -1) {
       next(null, true)
     } else {
@@ -37,7 +37,7 @@ const corsOptions = {
 
 // ********************* MIDDLEWARES ****************************
 
-server.use(cors(corsOptions))
+server.use(cors<Request>(corsOptions))
 server.use(express.json())
 server.use(cookieParser())
 server.use(morgan('dev'))
