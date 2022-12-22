@@ -35,7 +35,7 @@ const corsOptions = {
   credentials: true,
 }
 
-// ********************* MIDDLEWARES ****************************
+// ********************* MIDDLEWARES ******************************
 
 server.use(cors<Request>(corsOptions))
 server.use(express.json())
