@@ -13,7 +13,7 @@ import {
   catchAllErrorHandler,
   forbiddenErrorHandler,
   unauthorizedErrorHandler,
-} from './errorHandlers'
+} from './utils/errorHandlers/errorHandlers'
 import morgan from 'morgan'
 
 dotenv.config()
