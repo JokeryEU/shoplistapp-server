@@ -1,10 +1,7 @@
-import mongoose from 'mongoose'
-import bcrypt from 'bcrypt'
+import { Schema, model } from 'mongoose'
+import { hash, compare } from 'bcrypt'
 import createError from 'http-errors'
-
 import { User, UserModel } from './types'
-
-const { Schema, model } = mongoose
 
 const UserSchema = new Schema<User, UserModel>(
   {
@@ -33,13 +30,9 @@ const UserSchema = new Schema<User, UserModel>(
 
 UserSchema.pre('save', async function (next) {
   const newUser = this
-
   const plainPW = newUser.password
   if (newUser.isModified('password')) {
-    newUser.password = await bcrypt.hash(
-      plainPW,
-      parseInt(process.env.SALT_ROUNDS!)
-    )
+    newUser.password = await hash(plainPW, parseInt(process.env.SALT_ROUNDS!))
   }
   next()
 })
@@ -56,7 +49,7 @@ UserSchema.statics.checkCredentials = async function (email, password) {
   const user = await this.findOne({ email })
 
   if (user) {
-    const isOk = await bcrypt.compare(password, user.password)
+    const isOk = await compare(password, user.password)
     if (isOk) return user
     else return null
   } else return null

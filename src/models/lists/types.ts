@@ -12,7 +12,7 @@ export interface Item {
   name: string
   category?: string
   unit?: string
-  quantity?: number
+  quantity: number
   price?: number
   isFavorite: boolean
   isPinned: boolean

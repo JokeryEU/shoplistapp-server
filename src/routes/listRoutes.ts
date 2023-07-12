@@ -1,4 +1,4 @@
-import express from 'express'
+import { Router } from 'express'
 import {
   addInvitedToList,
   addToList,
@@ -13,7 +13,7 @@ import {
 } from '../controllers/listController'
 import { ownsList, authorize, JWTAuthMiddleware } from '../auth/index'
 
-const router = express.Router()
+const router = Router()
 
 router.get('/', JWTAuthMiddleware, authorize(['Admin']), getLists)
 router.get('/user', JWTAuthMiddleware, getUserLists)

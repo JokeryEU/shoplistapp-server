@@ -98,7 +98,7 @@ export const removeList = async (
     const removedlist = await listModel.findByIdAndDelete(req.params.id)
 
     if (removedlist) {
-      res.send({
+      res.status(204).send({
         message: `${removedlist.title} list removed`,
       })
     } else {

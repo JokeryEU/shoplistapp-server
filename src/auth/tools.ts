@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import { sign, verify } from 'jsonwebtoken'
 import { UserDocument } from '../models/users/types'
 import { TokenPayload } from './types'
 
@@ -16,7 +16,7 @@ export const authenticate = async (user: UserDocument) => {
 
 const generateJWT = (payload: TokenPayload): Promise<string | undefined> =>
   new Promise((res, rej) =>
-    jwt.sign(
+    sign(
       payload,
       process.env.ACCESS_TOKEN_SECRET!,
       { expiresIn: '1d' },
@@ -31,7 +31,7 @@ const generateRefreshJWT = (
   payload: TokenPayload
 ): Promise<string | undefined> =>
   new Promise((res, rej) =>
-    jwt.sign(
+    sign(
       payload,
       process.env.REFRESH_TOKEN_SECRET!,
       { expiresIn: '7d' },
@@ -44,7 +44,7 @@ const generateRefreshJWT = (
 
 export const verifyJWT = (token: string): Promise<TokenPayload | undefined> =>
   new Promise((res, rej) =>
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!, (err, decoded) => {
+    verify(token, process.env.ACCESS_TOKEN_SECRET!, (err, decoded) => {
       if (err) rej(err)
       res(decoded as TokenPayload)
     })

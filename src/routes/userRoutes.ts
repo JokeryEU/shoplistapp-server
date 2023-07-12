@@ -1,4 +1,4 @@
-import express from 'express'
+import { Router } from 'express'
 import {
   authUser,
   getUserProfile,
@@ -10,7 +10,7 @@ import {
 import { authorize, JWTAuthMiddleware } from '../auth/index'
 import { blacklist } from '../auth/validator'
 
-const router = express.Router()
+const router = Router()
 
 router.get('/', JWTAuthMiddleware, authorize(['Admin']), getUsers)
 router.post('/register', registerUser)

@@ -1,14 +1,12 @@
-import mongoose from 'mongoose'
+import { Schema, model } from 'mongoose'
 import { List, ListModel, Item } from './types'
-
-const { Schema, model } = mongoose
 
 const itemSchema = new Schema<Item>(
   {
     name: { type: String, trim: true, required: true },
     category: { type: String },
     unit: { type: String },
-    quantity: { type: Number },
+    quantity: { type: Number, default: 1 },
     price: { type: Number },
     isFavorite: { type: Boolean, default: false },
     isPinned: { type: Boolean, default: false },
@@ -26,7 +24,7 @@ const ListSchema = new Schema<List, ListModel>(
       immutable: true,
     },
     icon: String,
-    title: { type: String, required: true, trim: true },
+    title: { type: String, trim: true, required: true },
     items: [itemSchema],
     invited: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   },
