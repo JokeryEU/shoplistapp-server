@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser'
 import userRoutes from './routes/userRoutes'
 import listRoutes from './routes/listRoutes'
 import createError from 'http-errors'
+import helmet from 'helmet'
 import {
   notFoundErrorHandler,
   badRequestErrorHandler,
@@ -36,7 +37,7 @@ const corsOptions = {
 }
 
 // ********************* MIDDLEWARES ******************************
-
+server.use(helmet())
 server.use(cors<Request>(corsOptions))
 server.use(express.json())
 server.use(cookieParser())
