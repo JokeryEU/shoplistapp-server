@@ -4,6 +4,7 @@ import listModel from '../models/lists/listModel'
 import createHttpError from 'http-errors'
 import { User } from '../models/users/types'
 import userModel from '../models/users/userModel'
+import { isValidObjectId } from 'mongoose'
 
 type MiddlewareFunction = (
   req: Request,
@@ -29,7 +30,7 @@ export const getLists: MiddlewareFunction = async (req, res, next) => {
 export const getUserLists: MiddlewareFunction = async (req, res, next) => {
   try {
     const userLists = await listModel.find({
-      $or: [{ user: req.user!._id }, { invited: req.user!._id }],
+      $or: [{ user: req.user?._id }, { invited: req.user?._id }],
     })
 
     res.send(userLists)
@@ -49,7 +50,7 @@ export const createList: MiddlewareFunction = async (
   try {
     const newlist = await listModel.create({
       ...req.body,
-      user: req.user!._id,
+      user: req.user?._id,
     })
 
     res.status(201).send(newlist)
@@ -78,8 +79,9 @@ export const addToList = async (
     )
     if (!updateList) throw createHttpError(404, 'List not found!')
     res.send({
+      success: true,
       message: `${req.body.name} added to the list`,
-      item: updateList!.items,
+      item: updateList.items,
     })
   } catch (error) {
     next(error)
@@ -99,6 +101,7 @@ export const removeList = async (
 
     if (removedlist) {
       res.status(204).send({
+        success: true,
         message: `${removedlist.title} list removed`,
       })
     } else {
@@ -131,6 +134,7 @@ export const removeFromList = async (
 
     if (!removeItem) throw createHttpError(404, 'List not found!')
     res.send({
+      success: true,
       message: 'Item removed',
     })
   } catch (error) {
@@ -163,6 +167,7 @@ export const updateList = async (
 
     if (!updateList) throw createHttpError(404, 'List not found!')
     res.send({
+      success: true,
       message: `List updated`,
     })
   } catch (error) {
@@ -203,6 +208,7 @@ export const updateItem = async (
     if (!updateItem) throw createHttpError(404, 'List not found!')
 
     res.send({
+      success: true,
       message: `Item updated`,
       items: updateItem.items,
     })
@@ -272,6 +278,25 @@ export const removeInvited = async (
       }
     } else {
       next(createHttpError(404, 'No user found!'))
+    }
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const ownsList: MiddlewareFunction = async (req, res, next) => {
+  try {
+    const isValidId = isValidObjectId(req.params.id)
+    if (!isValidId) throw createHttpError(404, 'Invalid ID')
+
+    const userList = await listModel.findOne({
+      $and: [{ _id: req.params.id }, { user: req.user?._id }],
+    })
+
+    if (userList) {
+      next()
+    } else {
+      next(createHttpError(403, 'Not allowed!'))
     }
   } catch (error) {
     next(error)

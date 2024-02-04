@@ -61,7 +61,7 @@ server.use(catchAllErrorHandler)
 connect(process.env.MONGODB_ADDRESS!, {})
 
 connection.on('connected', () => {
-  console.log('MongoDB connection done')
+  console.log('MongoDB connection was successful')
 
   server.listen(port, () => {
     console.table(listEndpoints(server))

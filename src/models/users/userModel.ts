@@ -39,7 +39,7 @@ UserSchema.pre('save', async function (next) {
 
 UserSchema.post('save', function (error: any, doc: any, next: any) {
   if (error.name === 'MongoServerError' && error.code === 11000) {
-    next(createError(400, 'Email already in use!'))
+    next(createError(400, 'Invalid Email!'))
   } else {
     next(error)
   }

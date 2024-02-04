@@ -5,13 +5,14 @@ import {
   createList,
   getLists,
   getUserLists,
+  ownsList,
   removeFromList,
   removeInvited,
   removeList,
   updateItem,
   updateList,
 } from '../controllers/listController'
-import { ownsList, authorize, JWTAuthMiddleware } from '../auth/index'
+import { authorize, JWTAuthMiddleware } from '../auth/index'
 
 const router = Router()
 

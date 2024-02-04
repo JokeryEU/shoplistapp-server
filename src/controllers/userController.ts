@@ -24,12 +24,12 @@ export const authUser: MiddlewareFunction = async (
     if (!user) throw createError(400, 'Invalid email or password')
 
     const tokens = await authenticate(user)
-    res.cookie('accessToken', tokens!.accessToken, {
+    res.cookie('accessToken', tokens?.accessToken, {
       secure: process.env.NODE_ENV === 'production' ? true : false,
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       httpOnly: true,
     })
-    res.cookie('refreshToken', tokens!.refreshToken, {
+    res.cookie('refreshToken', tokens?.refreshToken, {
       secure: process.env.NODE_ENV === 'production' ? true : false,
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       httpOnly: true,
@@ -60,12 +60,12 @@ export const registerUser: MiddlewareFunction = async (
       req.body.password
     )
     const tokens = await authenticate(user)
-    res.cookie('accessToken', tokens!.accessToken, {
+    res.cookie('accessToken', tokens?.accessToken, {
       secure: process.env.NODE_ENV === 'production' ? true : false,
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       httpOnly: true,
     })
-    res.cookie('refreshToken', tokens!.refreshToken, {
+    res.cookie('refreshToken', tokens?.refreshToken, {
       secure: process.env.NODE_ENV === 'production' ? true : false,
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       httpOnly: true,
@@ -83,7 +83,7 @@ export const registerUser: MiddlewareFunction = async (
 export const logoutUser: MiddlewareFunction = async (req, res, next) => {
   try {
     req.user!.refreshToken = undefined
-    await req.user!.save()
+    await req.user?.save()
     res.clearCookie('accessToken')
     res.clearCookie('refreshToken')
     res.status(204).send()
