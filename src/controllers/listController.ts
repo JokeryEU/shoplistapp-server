@@ -59,7 +59,7 @@ export const createList: MiddlewareFunction = async (
   }
 }
 
-// @description Add item to list
+// @description Add item to the list
 // @route POST /lists/:id
 // @access Private
 export const addToList = async (
@@ -112,7 +112,7 @@ export const removeList = async (
   }
 }
 
-// @description Remove item from list
+// @description Remove item from the list
 // @route DELETE /lists/:id/item/:itemId
 // @access Private
 export const removeFromList = async (
@@ -175,7 +175,7 @@ export const updateList = async (
   }
 }
 
-// @description Update item
+// @description Update item in the list
 // @route PUT /lists/:id/item/:itemId
 // @access Private
 export const updateItem = async (
@@ -249,7 +249,7 @@ export const addInvitedToList = async (
   }
 }
 
-// @description Remove invited from list
+// @description Remove invited user from the list
 // @route DELETE /lists/:id/invited
 // @access Private
 export const removeInvited = async (
@@ -284,10 +284,13 @@ export const removeInvited = async (
   }
 }
 
+// @description Checking if user is the owner of the current list
+// @route POST-PUT-DELETE
+// @access Private
 export const ownsList: MiddlewareFunction = async (req, res, next) => {
   try {
     const isValidId = isValidObjectId(req.params.id)
-    if (!isValidId) throw createHttpError(404, 'Invalid ID')
+    if (!isValidId) throw createHttpError(400, 'Invalid ID')
 
     const userList = await listModel.findOne({
       $and: [{ _id: req.params.id }, { user: req.user?._id }],
