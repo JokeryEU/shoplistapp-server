@@ -250,7 +250,7 @@ export const addInvitedToList = async (
 }
 
 // @description Remove invited user from the list
-// @route DELETE /lists/:id/invited
+// @route PUT /lists/:id/invited
 // @access Private
 export const removeInvited = async (
   req: Request<{ id: string }, {}, Pick<User, 'email'>>,
@@ -285,7 +285,7 @@ export const removeInvited = async (
 }
 
 // @description Checking if user is the owner of the current list
-// @route POST-PUT-DELETE
+// @route POST-PUT-DELETE users owned lists
 // @access Private
 export const ownsList: MiddlewareFunction = async (req, res, next) => {
   try {

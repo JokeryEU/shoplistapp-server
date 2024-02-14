@@ -44,12 +44,10 @@ server.use(cookieParser())
 server.use(morgan('dev'))
 
 // ********************* ROUTES  **********************************
-
 server.use('/users', userRoutes)
 server.use('/lists', listRoutes)
 
 // ********************* ERROR HANDLERS ***************************
-
 server.use(badRequestErrorHandler)
 server.use(notFoundErrorHandler)
 server.use(unauthorizedErrorHandler)
@@ -57,7 +55,6 @@ server.use(forbiddenErrorHandler)
 server.use(catchAllErrorHandler)
 
 // ********************* DATABASE CONNECTION **********************
-
 connect(process.env.MONGODB_ADDRESS!, {})
 
 connection.on('connected', () => {
