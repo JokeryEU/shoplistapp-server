@@ -26,7 +26,7 @@ const port = process.env.PORT || 3004
 const whiteList = [process.env.FE_URL_DEV, process.env.FE_URL_PROD]
 
 const corsOptions = {
-  origin: function (origin: string | undefined, next: any): void {
+  origin: function (origin: string | undefined, next: Function): void {
     if (whiteList.indexOf(origin) !== -1) {
       next(null, true)
     } else {
@@ -55,7 +55,7 @@ server.use(forbiddenErrorHandler)
 server.use(catchAllErrorHandler)
 
 // ********************* DATABASE CONNECTION **********************
-connect(process.env.MONGODB_ADDRESS!, {})
+connect(process.env.MONGODB_ADDRESS ?? '', {})
 
 connection.on('connected', () => {
   console.log('MongoDB connection was successful')
