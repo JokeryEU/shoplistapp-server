@@ -26,11 +26,14 @@ const port = process.env.PORT || 3004
 const whiteList = [process.env.FE_URL_DEV, process.env.FE_URL_PROD]
 
 const corsOptions = {
-  origin: function (origin: string | undefined, next: Function): void {
-    if (whiteList.indexOf(origin) !== -1) {
-      next(null, true)
+  origin: (
+    origin: string | undefined,
+    callback: (err: Error | null, allow?: boolean) => void
+  ): void => {
+    if (origin && whiteList.includes(origin)) {
+      callback(null, true)
     } else {
-      next(createError(403, 'NOT ALLOWED BY CORS'))
+      callback(createError(403, 'NOT ALLOWED BY CORS'))
     }
   },
   credentials: true,
