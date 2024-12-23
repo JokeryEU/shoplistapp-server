@@ -15,7 +15,6 @@ import {
   forbiddenErrorHandler,
   unauthorizedErrorHandler,
 } from './utils/errorHandlers/errorHandlers'
-import morgan from 'morgan'
 
 dotenv.config()
 
@@ -44,7 +43,6 @@ server.use(helmet())
 server.use(cors<Request>(corsOptions))
 server.use(express.json())
 server.use(cookieParser())
-server.use(morgan('dev'))
 
 // ********************* ROUTES  **********************************
 server.use('/users', userRoutes)

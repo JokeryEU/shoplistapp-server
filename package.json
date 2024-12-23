@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "engines": {
-    "npm": ">=10.8.1",
-    "node": ">=20.14.0"
+    "npm": ">=10.9.0",
+    "node": ">=22.12.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -25,30 +25,31 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
-    "@types/cookie-parser": "^1.4.7",
+    "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
-    "@types/express": "^4.17.21",
+    "@types/express": "^5.0.0",
     "@types/express-list-endpoints": "^6.0.3",
     "@types/http-errors": "^2.0.4",
-    "@types/jsonwebtoken": "^9.0.6",
-    "@types/morgan": "^1.9.9",
-    "@types/node": "^20.14.9",
-    "dotenv": "^16.4.5",
-    "morgan": "^1.10.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.10.2",
+    "dotenv": "^16.4.7",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.5.2"
+    "typescript": "^5.7.2"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "cookie-parser": "^1.4.6",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
-    "express": "^4.19.2",
-    "express-list-endpoints": "^7.1.0",
-    "express-validator": "^7.1.0",
-    "helmet": "^7.1.0",
+    "express": "^4.21.2",
+    "express-list-endpoints": "^7.1.1",
+    "express-validator": "^7.2.0",
+    "helmet": "^8.0.0",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.4.4"
+    "mongoose": "^8.9.2"
+  },
+  "resolutions": {
+    "@types/mime": "3.0.4"
   },
   "private": true
 }

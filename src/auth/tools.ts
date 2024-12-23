@@ -1,11 +1,14 @@
 import { sign, verify } from 'jsonwebtoken'
 import { UserDocument } from '../models/users/types'
 import { TokenPayload } from './types'
+import { ObjectId } from 'mongoose'
 
 export const authenticate = async (user: UserDocument) => {
-  const newAccessToken = await generateJWT({ _id: user._id })
+  const newAccessToken = await generateJWT({ _id: user._id as ObjectId })
   if (!newAccessToken) throw new Error('Error during token generation!')
-  const newRefreshToken = await generateRefreshJWT({ _id: user._id })
+  const newRefreshToken = await generateRefreshJWT({
+    _id: user._id as ObjectId,
+  })
   user.refreshToken = newRefreshToken
   await user.save()
 
