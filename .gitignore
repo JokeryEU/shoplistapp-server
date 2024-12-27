@@ -98,5 +98,4 @@ dist
 .tern-port
 
 build/
-bun.lock
-bun.lockb
+bun.*
