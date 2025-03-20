@@ -1,6 +1,6 @@
 import express, { Request } from 'express'
 import cors from 'cors'
-import { connection, connect } from 'mongoose'
+import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import listEndpoints from 'express-list-endpoints'
 import cookieParser from 'cookie-parser'
@@ -56,9 +56,9 @@ server.use(forbiddenErrorHandler)
 server.use(catchAllErrorHandler)
 
 // ********************* DATABASE CONNECTION **********************
-connect(process.env.MONGODB_ADDRESS ?? '', {})
+mongoose.connect(process.env.MONGODB_ADDRESS as string, {})
 
-connection.on('connected', () => {
+mongoose.connection.on('connected', () => {
   console.log('MongoDB connection was successful')
 
   server.listen(port, () => {

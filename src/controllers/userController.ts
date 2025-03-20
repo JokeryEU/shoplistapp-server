@@ -25,12 +25,12 @@ export const authUser: MiddlewareFunction = async (
 
     const tokens = await authenticate(user)
     res.cookie('accessToken', tokens?.accessToken, {
-      secure: process.env.NODE_ENV === 'production' ? true : false,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       httpOnly: true,
     })
     res.cookie('refreshToken', tokens?.refreshToken, {
-      secure: process.env.NODE_ENV === 'production' ? true : false,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       httpOnly: true,
     })
@@ -61,12 +61,12 @@ export const registerUser: MiddlewareFunction = async (
     )
     const tokens = await authenticate(user)
     res.cookie('accessToken', tokens?.accessToken, {
-      secure: process.env.NODE_ENV === 'production' ? true : false,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       httpOnly: true,
     })
     res.cookie('refreshToken', tokens?.refreshToken, {
-      secure: process.env.NODE_ENV === 'production' ? true : false,
+      secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       httpOnly: true,
     })

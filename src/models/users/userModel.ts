@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { hash, compare } from 'bcrypt'
+import { password } from 'bun'
 import createError from 'http-errors'
 import { User, UserModel } from './types'
 
@@ -32,7 +32,10 @@ UserSchema.pre('save', async function (next) {
   const newUser = this
   const plainPW = newUser.password
   if (newUser.isModified('password')) {
-    newUser.password = await hash(plainPW, parseInt(process.env.SALT_ROUNDS!))
+    newUser.password = await password.hash(plainPW, {
+      algorithm: 'bcrypt',
+      cost: Number(process.env.SALT_ROUNDS as string),
+    })
   }
   next()
 })
@@ -45,11 +48,14 @@ UserSchema.post('save', function (error: any, doc: any, next: any) {
   }
 })
 
-UserSchema.statics.checkCredentials = async function (email, password) {
+UserSchema.statics.checkCredentials = async function (
+  email,
+  candidatePassword
+) {
   const user = await this.findOne({ email })
 
   if (user) {
-    const isOk = await compare(password, user.password)
+    const isOk = await password.verify(candidatePassword, user.password)
     if (isOk) return user
     else return null
   } else return null
