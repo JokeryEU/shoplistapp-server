@@ -1,4 +1,4 @@
-import { Document, Model, ObjectId } from 'mongoose'
+import { Document, Model, type ObjectId } from 'mongoose'
 
 export interface List {
   user: ObjectId

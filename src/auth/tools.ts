@@ -1,7 +1,7 @@
 import { sign, verify } from 'jsonwebtoken'
-import { UserDocument } from '../models/users/types'
-import { TokenPayload } from './types'
-import { ObjectId } from 'mongoose'
+import { type UserDocument } from '../models/users/types'
+import { type TokenPayload } from './types'
+import { type ObjectId } from 'mongoose'
 
 export const authenticate = async (user: UserDocument) => {
   const newAccessToken = await generateJWT({ _id: user._id as ObjectId })

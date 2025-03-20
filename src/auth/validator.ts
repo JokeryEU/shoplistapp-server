@@ -1,5 +1,5 @@
 import { check, validationResult } from 'express-validator'
-import { Request, Response, NextFunction } from 'express'
+import type { Request, Response, NextFunction } from 'express'
 import createError from 'http-errors'
 
 type MiddlewareFunction = (

@@ -1,4 +1,4 @@
-import express, { Request } from 'express'
+import express, { type Request } from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'

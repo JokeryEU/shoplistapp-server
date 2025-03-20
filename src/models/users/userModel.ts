@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
 import { password } from 'bun'
 import createError from 'http-errors'
-import { User, UserModel } from './types'
+import type { User, UserModel } from './types'
 
 const UserSchema = new Schema<User, UserModel>(
   {

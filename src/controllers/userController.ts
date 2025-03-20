@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express'
-import { User } from '../models/users/types'
+import type { Request, Response, NextFunction } from 'express'
+import type { User } from '../models/users/types'
 import { authenticate } from '../auth/tools'
 import UserModel from '../models/users/userModel'
 import createError from 'http-errors'

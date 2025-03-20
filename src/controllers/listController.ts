@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express'
-import { Item, List } from '../models/lists/types'
+import type { Request, Response, NextFunction } from 'express'
+import type { Item, List } from '../models/lists/types'
 import listModel from '../models/lists/listModel'
 import createHttpError from 'http-errors'
-import { User } from '../models/users/types'
+import type { User } from '../models/users/types'
 import userModel from '../models/users/userModel'
 import { isValidObjectId } from 'mongoose'
 

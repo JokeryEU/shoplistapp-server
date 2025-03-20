@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express'
+import type { Request, Response, NextFunction } from 'express'
 import createError from 'http-errors'
 import userModel from '../models/users/userModel'
 import { verifyJWT } from './tools'

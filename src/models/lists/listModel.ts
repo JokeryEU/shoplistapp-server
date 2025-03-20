@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { List, ListModel, Item } from './types'
+import type { List, ListModel, Item } from './types'
 
 const itemSchema = new Schema<Item>(
   {
