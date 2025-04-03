@@ -2,7 +2,6 @@ import express, { type Request } from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
-import listEndpoints from 'express-list-endpoints'
 import cookieParser from 'cookie-parser'
 import userRoutes from './routes/userRoutes'
 import listRoutes from './routes/listRoutes'
@@ -62,7 +61,6 @@ mongoose.connection.on('connected', () => {
   console.log('MongoDB connection was successful')
 
   server.listen(port, () => {
-    console.table(listEndpoints(server))
     console.log('Server up and running on port: ', port)
   })
 })
