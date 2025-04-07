@@ -30,10 +30,10 @@
     "@types/express": "^5.0.1",
     "@types/http-errors": "^2.0.4",
     "@types/jsonwebtoken": "^9.0.9",
-    "@types/node": "^22.13.17",
+    "@types/node": "^22.14.0",
     "dotenv": "^16.4.7",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "cookie-parser": "^1.4.7",
@@ -43,7 +43,7 @@
     "helmet": "^8.1.0",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.13.1"
+    "mongoose": "^8.13.2"
   },
   "resolutions": {
     "@types/mime": "3.0.4"
