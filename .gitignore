@@ -98,4 +98,3 @@ dist
 .tern-port
 
 build/
-bun.*
