@@ -1,7 +1,6 @@
 import express, { type Request } from 'express'
 import cors from 'cors'
 import mongoose from 'mongoose'
-import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import userRoutes from './routes/userRoutes'
 import listRoutes from './routes/listRoutes'
@@ -14,8 +13,6 @@ import {
   forbiddenErrorHandler,
   unauthorizedErrorHandler,
 } from './utils/errorHandlers/errorHandlers'
-
-dotenv.config()
 
 const server = express()
 
