@@ -18,7 +18,11 @@
     "url": "git+https://github.com/JokeryEU/shoplistapp-server.git"
   },
   "keywords": [],
-  "author": "Mihai Ivanov",
+  "author": {
+    "name": "Mihai Ivanov",
+    "email": "mihai.ivanov.dev@gmail.com",
+    "url": "https://mihai-ivanov.com"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/JokeryEU/shoplistapp-server/issues"
