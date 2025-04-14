@@ -6,13 +6,8 @@ import userRoutes from './routes/userRoutes'
 import listRoutes from './routes/listRoutes'
 import createError from 'http-errors'
 import helmet from 'helmet'
-import {
-  notFoundErrorHandler,
-  badRequestErrorHandler,
-  catchAllErrorHandler,
-  forbiddenErrorHandler,
-  unauthorizedErrorHandler,
-} from './utils/errorHandlers/errorHandlers'
+import { errorHandler } from './utils/errorHandlers/errorHandlers'
+import limiter from './utils/errorHandlers/rateLimiter'
 
 const server = express()
 
@@ -35,6 +30,8 @@ const corsOptions = {
 }
 
 // ********************* MIDDLEWARES ******************************
+server.set('trust proxy', 1)
+server.use(limiter)
 server.use(helmet())
 server.use(cors<Request>(corsOptions))
 server.use(express.json())
@@ -45,11 +42,7 @@ server.use('/users', userRoutes)
 server.use('/lists', listRoutes)
 
 // ********************* ERROR HANDLERS ***************************
-server.use(badRequestErrorHandler)
-server.use(notFoundErrorHandler)
-server.use(unauthorizedErrorHandler)
-server.use(forbiddenErrorHandler)
-server.use(catchAllErrorHandler)
+server.use(errorHandler)
 
 // ********************* DATABASE CONNECTION **********************
 mongoose.connect(process.env.MONGODB_ADDRESS as string, {})
