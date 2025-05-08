@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from 'express'
 import { HttpError } from 'http-errors'
+import logger from '../logger'
 
 export const errorHandler = (
   err: HttpError,
@@ -17,7 +18,7 @@ export const errorHandler = (
     500: 'Internal Server Error',
   }
 
-  console.error('Error:', err)
+  logger.error('Error:', err)
 
   res.status(statusCode).json({
     status: statusCode,

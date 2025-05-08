@@ -8,6 +8,7 @@ import createError from 'http-errors'
 import helmet from 'helmet'
 import { errorHandler } from './utils/errorHandlers/errorHandlers'
 import limiter from './utils/errorHandlers/rateLimiter'
+import logger from './utils/logger'
 
 const server = express()
 
@@ -48,9 +49,9 @@ server.use(errorHandler)
 mongoose.connect(process.env.MONGODB_ADDRESS as string, {})
 
 mongoose.connection.on('connected', () => {
-  console.log('MongoDB connection was successful')
+  logger.info('MongoDB connection was successful')
 
   server.listen(port, () => {
-    console.log('Server up and running on port: ', port)
+    logger.info('Server up and running on port: %s', port)
   })
 })
