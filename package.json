@@ -28,13 +28,13 @@
     "url": "https://github.com/JokeryEU/shoplistapp-server/issues"
   },
   "devDependencies": {
-    "@types/bun": "^1.2.12",
-    "@types/cookie-parser": "^1.4.8",
-    "@types/cors": "^2.8.18",
-    "@types/express": "^5.0.1",
-    "@types/http-errors": "^2.0.4",
+    "@types/bun": "^1.2.15",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/http-errors": "^2.0.5",
     "@types/jsonwebtoken": "^9.0.9",
-    "@types/node": "^22.15.17",
+    "@types/node": "^22.15.30",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3"
   },
@@ -47,7 +47,7 @@
     "helmet": "^8.1.0",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.14.2",
+    "mongoose": "^8.15.1",
     "winston": "^3.17.0"
   },
   "private": true
