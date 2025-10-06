@@ -4,8 +4,8 @@
   "description": "Express/Mongoose API server for a collaborative shopping list application.",
   "main": "server.js",
   "engines": {
-    "bun": ">=1.2.0",
-    "node": ">=22.15.0"
+    "bun": "<=1.2.23",
+    "node": "<=24.9.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -37,8 +37,8 @@ This repository contains the API server used by the ShopList client. It implemen
 
 ## Requirements
 
-- bun >= 1.2.0 (project `engines`)
-- node >= 22.15.0 (project `engines`) — Bun ships its own runtime, but Node may be needed for some environments
+- bun <= 1.2.23 (project `engines`)
+- node <= 24.9.0 (project `engines`) — Bun ships its own runtime, but Node may be needed for some environments
 - MongoDB instance reachable from the server
 
 Install a supported Bun version (or use Node + an alternative build/run strategy if you prefer). The repository contains scripts that use Bun directly.
