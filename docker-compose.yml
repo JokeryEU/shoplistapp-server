@@ -1,0 +1,16 @@
+services:
+  shoplist-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: base
+    volumes:
+      - ./src:/app/shoplist-server/src
+    container_name: shoplist-server
+    env_file:
+      - .env
+    expose:
+      - '3005'
+    ports:
+      - '3005:3005'
+    command: bun run dev

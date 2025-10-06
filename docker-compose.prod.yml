@@ -1,0 +1,5 @@
+services:
+  shoplist-server:
+    build:
+      target: production
+    command: bun run ./build/src/server.js
