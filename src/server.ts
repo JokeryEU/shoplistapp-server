@@ -1,5 +1,5 @@
 import express, { type Request } from 'express'
-import cors from 'cors'
+import cors, { type CorsOptions } from 'cors'
 import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import userRoutes from './routes/userRoutes'
@@ -14,20 +14,32 @@ const server = express()
 
 const port = process.env.PORT || 3004
 
-const whiteList = [process.env.FE_URL_DEV, process.env.FE_URL_PROD]
+const whiteList = [process.env.FE_URL_DEV, process.env.FE_URL_PROD].filter(
+  Boolean
+) as string[]
 
-const corsOptions = {
+const normalizeOrigin = (u: string) => u.replace(/\/+$/, '')
+const whiteListSet = new Set(whiteList.map(normalizeOrigin))
+
+const corsOptions: CorsOptions = {
   origin: (
     origin: string | undefined,
     callback: (err: Error | null, allow?: boolean) => void
   ): void => {
-    if (origin && whiteList.includes(origin)) {
-      callback(null, true)
-    } else {
-      callback(createError(403, 'NOT ALLOWED BY CORS'))
+    if (!origin) return callback(null, true)
+
+    const norm = normalizeOrigin(origin)
+    if (whiteListSet.has(norm)) {
+      return callback(null, true)
     }
+
+    logger.warn('Blocked CORS origin: %s', origin)
+    return callback(createError(403, 'Not allowed by CORS'))
   },
   credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  optionsSuccessStatus: 204,
 }
 
 // ********************* MIDDLEWARES ******************************
