@@ -30,7 +30,7 @@ export const getLists: MiddlewareFunction = async (req, res, next) => {
 export const getUserLists: MiddlewareFunction = async (req, res, next) => {
   try {
     const userLists = await listModel.find({
-      $or: [{ user: req.user?._id }, { invited: req.user?._id }],
+      $or: [{ user: req.user!._id }, { invited: req.user!._id }],
     })
 
     res.send(userLists)
@@ -50,7 +50,7 @@ export const createList: MiddlewareFunction = async (
   try {
     const newlist = await listModel.create({
       ...req.body,
-      user: req.user?._id,
+      user: req.user!._id,
     })
 
     res.status(201).send(newlist)
@@ -293,7 +293,8 @@ export const ownsList: MiddlewareFunction = async (req, res, next) => {
     if (!isValidId) throw createHttpError(400, 'Invalid ID')
 
     const userList = await listModel.findOne({
-      $and: [{ _id: req.params.id }, { user: req.user?._id }],
+      _id: req.params.id,
+      user: req.user!._id,
     })
 
     if (userList) {

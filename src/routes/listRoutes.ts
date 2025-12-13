@@ -13,21 +13,75 @@ import {
   updateList,
 } from '../controllers/listController'
 import { authorize, JWTAuthMiddleware } from '../auth/index'
+import { validateBody, validateParams } from '../auth/validator'
+import {
+  createListSchema,
+  inviteEmailSchema,
+  itemIdParamSchema,
+  itemSchema,
+  updateListSchema,
+} from '../schemas/listSchemas'
 
 const router = Router()
 
 router.get('/', JWTAuthMiddleware, authorize(['Admin']), getLists)
 router.get('/user', JWTAuthMiddleware, getUserLists)
 
-router.post('/user', JWTAuthMiddleware, createList)
-router.post('/:id/invited', JWTAuthMiddleware, ownsList, addInvitedToList)
-router.post('/:id', JWTAuthMiddleware, ownsList, addToList)
+router.post(
+  '/user',
+  JWTAuthMiddleware,
+  validateBody(createListSchema),
+  createList
+)
 
-router.put('/:id/item/:itemId', JWTAuthMiddleware, ownsList, updateItem)
-router.put('/:id/invited', JWTAuthMiddleware, ownsList, removeInvited)
-router.put('/:id', JWTAuthMiddleware, ownsList, updateList)
+router.post(
+  '/:id/invited',
+  JWTAuthMiddleware,
+  ownsList,
+  validateBody(inviteEmailSchema),
+  addInvitedToList
+)
 
-router.delete('/:id/item/:itemId', JWTAuthMiddleware, ownsList, removeFromList)
+router.post(
+  '/:id',
+  JWTAuthMiddleware,
+  ownsList,
+  validateBody(itemSchema),
+  addToList
+)
+
+router.put(
+  '/:id/item/:itemId',
+  JWTAuthMiddleware,
+  ownsList,
+  validateParams(itemIdParamSchema),
+  validateBody(itemSchema),
+  updateItem
+)
+
+router.put(
+  '/:id/invited',
+  JWTAuthMiddleware,
+  ownsList,
+  validateBody(inviteEmailSchema),
+  removeInvited
+)
+
+router.put(
+  '/:id',
+  JWTAuthMiddleware,
+  ownsList,
+  validateBody(updateListSchema),
+  updateList
+)
+
+router.delete(
+  '/:id/item/:itemId',
+  JWTAuthMiddleware,
+  ownsList,
+  validateParams(itemIdParamSchema),
+  removeFromList
+)
 router.delete('/:id', JWTAuthMiddleware, ownsList, removeList)
 
 export default router

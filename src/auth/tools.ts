@@ -1,20 +1,19 @@
 import { sign, verify } from 'jsonwebtoken'
 import { type UserDocument } from '../models/users/types'
 import { type TokenPayload } from './types'
-import { type ObjectId } from 'mongoose'
 
 export const authenticate = async (user: UserDocument) => {
-  const newAccessToken = await generateJWT({ _id: user._id as ObjectId })
+  const userId = user._id.toString()
+  const newAccessToken = await generateJWT({ _id: userId })
   if (!newAccessToken) throw new Error('Error during token generation!')
-  const newRefreshToken = await generateRefreshJWT({
-    _id: user._id as ObjectId,
-  })
+
+  const newRefreshToken = await generateRefreshJWT({ _id: userId })
+  if (!newRefreshToken) throw new Error('Error during token generation!')
+
   user.refreshToken = newRefreshToken
   await user.save()
 
-  if (newAccessToken && newRefreshToken) {
-    return { accessToken: newAccessToken, refreshToken: newRefreshToken }
-  }
+  return { accessToken: newAccessToken, refreshToken: newRefreshToken }
 }
 
 const generateJWT = (payload: TokenPayload): Promise<string | undefined> =>
@@ -48,6 +47,16 @@ const generateRefreshJWT = (
 export const verifyJWT = (token: string): Promise<TokenPayload | undefined> =>
   new Promise((res, rej) =>
     verify(token, process.env.ACCESS_TOKEN_SECRET!, (err, decoded) => {
+      if (err) rej(err)
+      res(decoded as TokenPayload)
+    })
+  )
+
+export const verifyRefreshJWT = (
+  token: string
+): Promise<TokenPayload | undefined> =>
+  new Promise((res, rej) =>
+    verify(token, process.env.REFRESH_TOKEN_SECRET!, (err, decoded) => {
       if (err) rej(err)
       res(decoded as TokenPayload)
     })

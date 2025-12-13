@@ -1,8 +1,8 @@
 import { Document, Model } from 'mongoose'
 
 export interface User {
-  firstName: string
-  lastName: string
+  firstName?: string
+  lastName?: string
   email: string
   password: string
   role: string
@@ -13,5 +13,8 @@ export interface User {
 export interface UserDocument extends User, Document {}
 
 export interface UserModel extends Model<UserDocument> {
-  checkCredentials(email: string, password: string): Promise<UserDocument>
+  checkCredentials(
+    email: string,
+    password: string
+  ): Promise<UserDocument | null>
 }

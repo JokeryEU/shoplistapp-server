@@ -28,7 +28,7 @@ const UserSchema = new Schema<User, UserModel>(
   { timestamps: true }
 )
 
-UserSchema.pre('save', async function (next) {
+UserSchema.pre('save', async function () {
   const newUser = this
   const plainPW = newUser.password
   if (newUser.isModified('password')) {
@@ -37,7 +37,6 @@ UserSchema.pre('save', async function (next) {
       cost: Number(process.env.SALT_ROUNDS as string),
     })
   }
-  next()
 })
 
 UserSchema.post('save', function (error: any, doc: any, next: any) {

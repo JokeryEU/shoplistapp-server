@@ -1,11 +1,11 @@
-import { Document, Model, type ObjectId } from 'mongoose'
+import { Document, Model, Types } from 'mongoose'
 
 export interface List {
-  user: ObjectId
+  user: Types.ObjectId
   title: string
   icon?: string
   items?: Item[]
-  invited?: ObjectId[]
+  invited?: Types.ObjectId[]
 }
 
 export interface Item {
