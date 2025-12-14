@@ -30,6 +30,9 @@ export const itemSchema = z.object({
   isCrossedOff: z.boolean().optional(),
 })
 
+// Partial schema for updating items (all fields optional)
+export const updateItemSchema = itemSchema.partial()
+
 export const itemIdParamSchema = z.object({
   itemId: mongoIdSchema,
 })
@@ -39,3 +42,4 @@ export type CreateListInput = z.infer<typeof createListSchema>
 export type UpdateListInput = z.infer<typeof updateListSchema>
 export type InviteEmailInput = z.infer<typeof inviteEmailSchema>
 export type ItemInput = z.infer<typeof itemSchema>
+export type UpdateItemInput = z.infer<typeof updateItemSchema>

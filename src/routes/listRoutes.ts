@@ -19,6 +19,7 @@ import {
   inviteEmailSchema,
   itemIdParamSchema,
   itemSchema,
+  updateItemSchema,
   updateListSchema,
 } from '../schemas/listSchemas'
 
@@ -55,7 +56,7 @@ router.put(
   JWTAuthMiddleware,
   ownsList,
   validateParams(itemIdParamSchema),
-  validateBody(itemSchema),
+  validateBody(updateItemSchema),
   updateItem
 )
 
