@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
 import { password } from 'bun'
-import createError from 'http-errors'
+import createHttpError from 'http-errors'
 import type { User, UserModel } from './types'
 
 const UserSchema = new Schema<User, UserModel>(
@@ -13,9 +13,9 @@ const UserSchema = new Schema<User, UserModel>(
       required: true,
       lowercase: true,
       trim: true,
-      max: 50,
+      maxLength: 50,
     },
-    password: { type: String, trim: true, required: true, min: 8 },
+    password: { type: String, trim: true, required: true, minLength: 8 },
     role: {
       type: String,
       required: true,
@@ -41,7 +41,7 @@ UserSchema.pre('save', async function () {
 
 UserSchema.post('save', function (error: any, doc: any, next: any) {
   if (error.name === 'MongoServerError' && error.code === 11000) {
-    next(createError(400, 'Invalid Email!'))
+    next(createHttpError(400, 'Invalid Email!'))
   } else {
     next(error)
   }
