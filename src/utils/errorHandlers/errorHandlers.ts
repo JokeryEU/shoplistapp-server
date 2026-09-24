@@ -1,12 +1,12 @@
 import type { Request, Response, NextFunction } from 'express'
-import { HttpError } from 'http-errors'
+import type { HttpError } from 'http-errors'
 import logger from '../logger'
 
 export const errorHandler = (
   err: HttpError,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   // Default to a 500 if no error status is provided.
   const statusCode = err.status || 500

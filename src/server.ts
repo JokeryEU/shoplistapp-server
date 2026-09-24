@@ -1,4 +1,4 @@
-import express, { type Request } from 'express'
+import express, { type Application, type Request } from 'express'
 import cors, { type CorsOptions } from 'cors'
 import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
@@ -10,12 +10,12 @@ import { errorHandler } from './utils/errorHandlers/errorHandlers'
 import limiter from './utils/errorHandlers/rateLimiter'
 import logger from './utils/logger'
 
-const server = express()
+const server: Application = express()
 
 const port = process.env.PORT || 3004
 
 const whiteList = [process.env.FE_URL_DEV, process.env.FE_URL_PROD].filter(
-  Boolean
+  Boolean,
 ) as string[]
 
 const normalizeOrigin = (u: string) => u.replace(/\/+$/, '')
@@ -24,7 +24,7 @@ const whiteListSet = new Set(whiteList.map(normalizeOrigin))
 const corsOptions: CorsOptions = {
   origin: (
     origin: string | undefined,
-    callback: (err: Error | null, allow?: boolean) => void
+    callback: (err: Error | null, allow?: boolean) => void,
   ): void => {
     if (!origin) return callback(null, true)
 
