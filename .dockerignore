@@ -98,3 +98,9 @@ dist
 .tern-port
 
 build/
+
+# Not needed in the image
+.git
+.github
+.claude
+.vscode
