@@ -195,4 +195,4 @@ If you'd like, I can:
 - open a PR that adds this README to the repository, or
 - update the README with additional details (examples of request/response JSON shapes) by reading specific model/type files.
 
-Contact: Mihai Ivanov — <mihai.ivanov.dev@gmail.com>
+Contact: Mihai Ivanov — <mihai@mihai-ivanov.com>
